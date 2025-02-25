@@ -77,7 +77,7 @@ def is_draft(data) -> bool:
             return data['object_attributes']['draft']
 
         # for gitlab server version before 16
-        elif data.get('object_attributes', {}).get('title').find('Draft:') != -1:
+        elif 'Draft:' in data.get('object_attributes', {}).get('title'):
             return True
     except Exception as e:
         get_logger().error(f"Failed 'is_draft' logic: {e}")
@@ -91,7 +91,7 @@ def is_draft_ready(data) -> bool:
             
         # for gitlab server version before 16
         elif 'title' in data.get('changes', {}):
-            if data['changes']['title']['previous'].find('Draft:') != -1 and not data['changes']['title']['current'].find('Draft:') != -1:
+            if 'Draft:' in data['changes']['title']['previous'] and 'Draft:' not in data['changes']['title']['current']:
                 return True
     except Exception as e:
         get_logger().error(f"Failed 'is_draft_ready' logic: {e}")
@@ -291,7 +291,7 @@ app.include_router(router)
 
 
 def start():
-    uvicorn.run(app, host="0.0.0.0", port=3000)
+    uvicorn.run(app, host="0.0.0.0", port=3100)
 
 
 if __name__ == '__main__':
