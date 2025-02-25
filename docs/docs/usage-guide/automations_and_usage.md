@@ -207,6 +207,13 @@ push_commands = [
 
 Note that to use the 'handle_push_trigger' feature, you need to give the gitlab webhook also the "Push events" scope.
 
+The GitLab webhook will skip running the tools if the MR is in a draft state.
+The configuration toggle `handle_draft_ready_trigger` can run the `pr_commands` automatically when the MR is marked as ready for review.
+```toml
+[gitlab]
+handle_draft_ready_trigger = true
+```
+
 ### BitBucket App
 Similar to GitHub app, when running Qodo Merge from BitBucket App, the default [configuration file](https://github.com/Codium-ai/pr-agent/blob/main/pr_agent/settings/configuration.toml) from a pre-built docker will be initially loaded.
 
